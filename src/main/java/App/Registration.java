@@ -269,11 +269,6 @@ public final class Registration {
                     }
                     System.out.println(student.getTuitionPay().getCurrentInstallmentTuitionBill());
 
-
-
-
-					numberOfPaysAnswer = "one installment";
-
 				}
                 //case 1: the student is going to pay using installments but this is the first installment. We have to
                 //ask the user how many installments

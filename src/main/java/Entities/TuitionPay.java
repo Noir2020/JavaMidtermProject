@@ -9,7 +9,6 @@ public class TuitionPay {
 
     private double totalAmount;
     private int discount;
-    private String paymentMethod;
 
     private double installmentAmount;
     private int numberOfInstallments;
@@ -20,9 +19,6 @@ public class TuitionPay {
         discount =0;
         numberOfInstallments =0;
         currentInstallment=1;
-        paymentMethod = "cash";
-        administrationFee = 0;
-        technologyUseFee =0;
     }
 
     public void setDiscount(int discount) {
