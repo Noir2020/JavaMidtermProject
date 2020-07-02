@@ -116,28 +116,6 @@ public class Student {
         return tuitionPay;
     }
 
-    public void setTuitionPay(TuitionPay tuitionPay) {
-        this.tuitionPay = tuitionPay;
-    }
-
-    public double getDiscount() {
-        int discount;
-        switch (this.studentStatus.toLowerCase()){
-            case "international student":
-                discount = 0;
-                break;
-            case "out of state student":
-                discount=15;
-                break;
-            case "in state student":
-                discount = 50;
-                break;
-            default:
-                discount =0;
-                break;
-        }
-        return discount;
-    }
 }
 
 
