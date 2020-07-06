@@ -17,7 +17,7 @@ import org.omg.PortableServer.POAPackage.ObjectAlreadyActive;
 public class DataManager {
     private String Data_Path;
     
-    public DataManager(){
+    public DataManager() {
         Data_Path = "src/main/resources/data/data.xls";
     }
 
@@ -79,7 +79,7 @@ public class DataManager {
                 Map<String, Object[]> data = new TreeMap<String, Object[]>();
                 data.put("1", new Object[] {"ID","First name","Last name","Document number","Address","Status","Credits"});
                 for(Student student:studentsToExcel) {
-                	data.put(""+(student.STUDENT_ID+1), new Object[] {student.STUDENT_ID,student.getFirstName(),student.getLastName(),student.getDocumentNumber(),student.getAddress(),student.getStudentStatus(),student.getCredits()});
+                	data.put(""+(student.STUDENT_ID+1), new Object[] {student.STUDENT_ID,student.getFirstName(),student.getLastName(),student.getDocumentNumber(),student.getAddress(),student.getStudentStatus(),student.getCredits(),});
                 }
                 
                 Set<String> keyset = data.keySet(); 

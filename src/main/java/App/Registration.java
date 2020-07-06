@@ -39,16 +39,17 @@ public final class Registration {
 			System.out.println("4. Search students by full name");
 			System.out.println("5. Delete student by ID");
 			System.out.println("6. Show list of courses of a student");
-			System.out.println("7. Get student's bill");
+			System.out.println("7. View balance");
+			System.out.println("8. Pay tuition");
 			System.out.println("[COURSES ADMIN]");
-			System.out.println("8. Add course");
-			System.out.println("9. Get list of all courses");
-			System.out.println("10. Add course to student");
-			System.out.println("11. Search course by ID");
-			System.out.println("12. Search course by Name");
-			System.out.println("13. Delete course by ID");
-			System.out.println("14. Delete course from student");
-			System.out.println("quit. Quit.");
+			System.out.println("9. Add course");
+			System.out.println("10. Get list of all courses");
+			System.out.println("11. Add course to student");
+			System.out.println("12. Search course by ID");
+			System.out.println("13. Search course by Name");
+			System.out.println("14. Delete course by ID");
+			System.out.println("15. Delete course from student");
+			System.out.println("0. Quit.");
 			userInput = userInputScanner.nextLine().toLowerCase().trim();//Takes out blank spaces and makes everything lowercase
 
 			switch (userInput) {
@@ -71,30 +72,33 @@ public final class Registration {
 					getCoursesOfStudentApp();
 					break;
 				case "7":
-					getStudentBillApp();
+					viewBalanceApp();
 					break;
 				case "8":
-					addCourseApp();
+					getStudentBillApp();
 					break;
 				case "9":
-					showListOfCoursesApp();
+					addCourseApp();
 					break;
 				case "10":
-					addCourseToStudentApp();
+					showListOfCoursesApp();
 					break;
 				case "11":
-					searchCourseByIDApp();
+					addCourseToStudentApp();
 					break;
 				case "12":
-					searchCourseByName();
+					searchCourseByIDApp();
 					break;
 				case "13":
-					deleteCourseByIDApp();
+					searchCourseByName();
 					break;
 				case "14":
+					deleteCourseByIDApp();
+					break;
+				case "15":
 					deleteCourseFromStudent();
 					break;
-				case "quit":
+				case "0":
 					quit();
 					break;
 				default:
@@ -196,22 +200,44 @@ public final class Registration {
 		}
 	}
 	//7
+	public static void viewBalanceApp(){
+		Scanner viewBalanceScanner = new Scanner(System.in);
+		System.out.println("Input student's ID: ");
+		int studentID = viewBalanceScanner.nextInt();
+		if(studentsController.isStudentEnrolled(studentID)) {
+			Student student = studentsController.searchStudentById(studentID);
+			List<String> coursesIDs = studentCourseController.getCourses(studentID);
+			List<Course> courses = new ArrayList<>();
+			for (String id : coursesIDs) {
+				courses.add(coursesController.searchCourseById(id));
+			}
+			System.out.println("Name: " + student.getFirstName() + " " + student.getLastName() + " ID: " +
+					student.STUDENT_ID + " Document: " + student.getDocumentNumber() + "\nStatus: " + student.getStudentStatus());
+			String bill = student.getTuitionPay().getBasicTuitionBill(courses, "", false);
+			System.out.println(bill);
+
+		} else{
+			System.out.println("Student not found");
+		}
+	}
+
+	//8
 	public static void getStudentBillApp(){
 
 	    //1. Check the student's standard bill
-	    Scanner getStudentBillScanner = new Scanner(System.in);
+		Scanner getStudentBillScanner = new Scanner(System.in);
 		System.out.println("Input student's ID: ");
 		int studentID = getStudentBillScanner.nextInt();
-		if(studentsController.isStudentEnrolled(studentID)){
-		    Student student = studentsController.searchStudentById(studentID);
-		    List<String> coursesIDs = studentCourseController.getCourses(studentID);
-		    List<Course> courses = new ArrayList<>();
-		    for(String id: coursesIDs){
-		    	courses.add(coursesController.searchCourseById(id));
+		if(studentsController.isStudentEnrolled(studentID)) {
+			Student student = studentsController.searchStudentById(studentID);
+			List<String> coursesIDs = studentCourseController.getCourses(studentID);
+			List<Course> courses = new ArrayList<>();
+			for (String id : coursesIDs) {
+				courses.add(coursesController.searchCourseById(id));
 			}
-            System.out.println("Name: "+student.getFirstName()+" "+student.getLastName() + " ID: "+
-			student.STUDENT_ID+" Document: "+student.getDocumentNumber()+ "\nStatus: "+student.getStudentStatus());
-			String bill = student.getTuitionPay().getBasicTuitionBill(courses,"", false);
+			System.out.println("Name: " + student.getFirstName() + " " + student.getLastName() + " ID: " +
+					student.STUDENT_ID + " Document: " + student.getDocumentNumber() + "\nStatus: " + student.getStudentStatus());
+			String bill = student.getTuitionPay().getBasicTuitionBill(courses, "", false);
 			System.out.println(bill);
 			getStudentBillScanner.nextLine();
 			String payAnswer = "";
@@ -251,7 +277,7 @@ public final class Registration {
 				while(!numberOfPaysAnswer.toLowerCase().equals("1") &&  !numberOfPaysAnswer.toLowerCase().equals("2")){
 					System.out.println("One payment or installments?: ");
 					System.out.println("\n1. ONE payment.");
-					System.out.println("2. ONE Installment.");
+					System.out.println("2. Installments.");
 					numberOfPaysAnswer = getStudentBillScanner.nextLine();
 				}
 				if(numberOfPaysAnswer.toLowerCase().equals("1")){
